@@ -8,12 +8,17 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.tiotecpreventivo.ui.screens.DispositivoScreen
 import com.example.tiotecpreventivo.ui.screens.InicioScreen
 import com.example.tiotecpreventivo.ui.screens.PerfilScreen
+import com.example.tiotecpreventivo.viewmodel.DispositivoViewModel
 import com.example.tiotecpreventivo.viewmodel.PerfilViewModel
 
 @Composable
-fun AppNavigation(perfilViewModel: PerfilViewModel) {
+fun AppNavigation(
+    perfilViewModel: PerfilViewModel,
+    dispositivoViewModel: DispositivoViewModel
+) {
     val navController = rememberNavController()
 
     NavHost(
@@ -32,6 +37,15 @@ fun AppNavigation(perfilViewModel: PerfilViewModel) {
             PerfilScreen(
                 viewModel = perfilViewModel,
                 onContinuar = {
+                    navController.navigate("dispositivo")
+                }
+            )
+        }
+
+        composable("dispositivo") {
+            DispositivoScreen(
+                viewModel = dispositivoViewModel,
+                onContinuar = {
                     navController.navigate("confirmacion")
                 }
             )
@@ -45,14 +59,14 @@ fun AppNavigation(perfilViewModel: PerfilViewModel) {
                         .padding(24.dp),
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    Text("¡Perfil validado!")
+                    Text("¡Perfil y dispositivo validados!")
 
                     Button(
                         onClick = {
                             navController.popBackStack()
                         }
                     ) {
-                        Text("Volver al perfil")
+                        Text("Volver al dispositivo")
                     }
                 }
             }
