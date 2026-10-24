@@ -9,6 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.tiotecpreventivo.viewmodel.EvaluacionViewModel
+import androidx.compose.animation.AnimatedVisibility
 
 @Composable
 fun EvaluacionScreen(
@@ -63,9 +64,12 @@ fun EvaluacionScreen(
                 onRespuesta = viewModel::onRecuperacionChange
             )
 
-            estado.error?.let { mensaje ->
+            AnimatedVisibility(
+                visible = estado.error != null
+            ) {
                 Text(
-                    text = mensaje,
+                    text = estado.error
+                        ?: "Responde todas las preguntas antes de continuar.",
                     color = MaterialTheme.colorScheme.error
                 )
             }
