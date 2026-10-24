@@ -6,12 +6,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.tiotecpreventivo.ui.screens.DispositivoScreen
 import com.example.tiotecpreventivo.ui.screens.EvaluacionScreen
+import com.example.tiotecpreventivo.ui.screens.HistorialScreen
 import com.example.tiotecpreventivo.ui.screens.InicioScreen
 import com.example.tiotecpreventivo.ui.screens.PerfilScreen
 import com.example.tiotecpreventivo.ui.screens.PlanScreen
 import com.example.tiotecpreventivo.ui.screens.ResultadoScreen
 import com.example.tiotecpreventivo.viewmodel.DispositivoViewModel
 import com.example.tiotecpreventivo.viewmodel.EvaluacionViewModel
+import com.example.tiotecpreventivo.viewmodel.HistorialViewModel
 import com.example.tiotecpreventivo.viewmodel.PerfilViewModel
 import com.example.tiotecpreventivo.viewmodel.PlanViewModel
 
@@ -20,7 +22,8 @@ fun AppNavigation(
     perfilViewModel: PerfilViewModel,
     dispositivoViewModel: DispositivoViewModel,
     evaluacionViewModel: EvaluacionViewModel,
-    planViewModel: PlanViewModel
+    planViewModel: PlanViewModel,
+    historialViewModel: HistorialViewModel
 ) {
     val navController = rememberNavController()
 
@@ -35,6 +38,9 @@ fun AppNavigation(
                 },
                 onVerPlan = {
                     navController.navigate("plan")
+                },
+                onVerHistorial = {
+                    navController.navigate("historial")
                 }
             )
         }
@@ -67,9 +73,17 @@ fun AppNavigation(
             EvaluacionScreen(
                 viewModel = evaluacionViewModel,
                 onVerResultado = {
-                    planViewModel.generarPlan(
-                        evaluacionViewModel.estado.value
+                    val respuestas = evaluacionViewModel.estado.value
+
+                    planViewModel.generarPlan(respuestas)
+
+                    historialViewModel.guardarEvaluacion(
+                        alias = perfilViewModel.estado.value.alias,
+                        dispositivo =
+                            dispositivoViewModel.estado.value.nombre,
+                        respuestas = respuestas
                     )
+
                     navController.navigate("resultado")
                 },
                 onVolver = {
@@ -90,6 +104,15 @@ fun AppNavigation(
         composable("plan") {
             PlanScreen(
                 viewModel = planViewModel,
+                onVolver = {
+                    navController.popBackStack()
+                }
+            )
+        }
+
+        composable("historial") {
+            HistorialScreen(
+                viewModel = historialViewModel,
                 onVolver = {
                     navController.popBackStack()
                 }

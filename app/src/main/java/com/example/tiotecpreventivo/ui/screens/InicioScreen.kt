@@ -11,7 +11,8 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun InicioScreen(
     onComenzar: () -> Unit,
-    onVerPlan: () -> Unit
+    onVerPlan: () -> Unit,
+    onVerHistorial: () -> Unit
 ) {
     Scaffold { innerPadding ->
         Column(
@@ -69,6 +70,12 @@ fun InicioScreen(
                 text = "Aplicación académica con datos ficticios.",
                 style = MaterialTheme.typography.bodySmall
             )
+            OutlinedButton(
+                onClick = onVerHistorial,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Ver historial")
+            }
         }
     }
 }
@@ -79,7 +86,8 @@ fun InicioScreenPreview() {
     MaterialTheme {
         InicioScreen(
             onComenzar = {},
-            onVerPlan = {}
+            onVerPlan = {},
+            onVerHistorial = {}
         )
     }
 }

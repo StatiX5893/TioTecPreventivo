@@ -11,6 +11,7 @@ import com.example.tiotecpreventivo.ui.theme.TioTecPreventivoTheme
 import com.example.tiotecpreventivo.viewmodel.PerfilViewModel
 import com.example.tiotecpreventivo.viewmodel.DispositivoViewModel
 import com.example.tiotecpreventivo.viewmodel.PlanViewModel
+import com.example.tiotecpreventivo.viewmodel.HistorialViewModel
 
 class MainActivity : ComponentActivity() {
 
@@ -20,6 +21,8 @@ class MainActivity : ComponentActivity() {
     private val evaluacionViewModel: EvaluacionViewModel by viewModels()
 
     private val planViewModel: PlanViewModel by viewModels()
+
+    private val historialViewModel: HistorialViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +34,8 @@ class MainActivity : ComponentActivity() {
                     perfilViewModel = perfilViewModel,
                     dispositivoViewModel = dispositivoViewModel,
                     evaluacionViewModel = evaluacionViewModel,
-                    planViewModel = planViewModel
+                    planViewModel = planViewModel,
+                    historialViewModel = historialViewModel
                 )
             }
         }
