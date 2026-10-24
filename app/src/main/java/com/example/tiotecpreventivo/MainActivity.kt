@@ -10,6 +10,7 @@ import com.example.tiotecpreventivo.navigation.AppNavigation
 import com.example.tiotecpreventivo.ui.theme.TioTecPreventivoTheme
 import com.example.tiotecpreventivo.viewmodel.PerfilViewModel
 import com.example.tiotecpreventivo.viewmodel.DispositivoViewModel
+import com.example.tiotecpreventivo.viewmodel.PlanViewModel
 
 class MainActivity : ComponentActivity() {
 
@@ -17,6 +18,8 @@ class MainActivity : ComponentActivity() {
     private val dispositivoViewModel: DispositivoViewModel by viewModels()
 
     private val evaluacionViewModel: EvaluacionViewModel by viewModels()
+
+    private val planViewModel: PlanViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +30,8 @@ class MainActivity : ComponentActivity() {
                 AppNavigation(
                     perfilViewModel = perfilViewModel,
                     dispositivoViewModel = dispositivoViewModel,
-                    evaluacionViewModel = evaluacionViewModel
+                    evaluacionViewModel = evaluacionViewModel,
+                    planViewModel = planViewModel
                 )
             }
         }

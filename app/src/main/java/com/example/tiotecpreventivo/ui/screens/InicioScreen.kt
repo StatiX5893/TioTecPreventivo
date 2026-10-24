@@ -7,8 +7,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
+
 @Composable
-fun InicioScreen(onComenzar:() -> Unit) {
+fun InicioScreen(
+    onComenzar: () -> Unit,
+    onVerPlan: () -> Unit
+) {
     Scaffold { innerPadding ->
         Column(
             modifier = Modifier
@@ -55,7 +59,7 @@ fun InicioScreen(onComenzar:() -> Unit) {
             }
 
             OutlinedButton(
-                onClick = {},
+                onClick = onVerPlan,
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Ver plan preventivo")
@@ -73,6 +77,9 @@ fun InicioScreen(onComenzar:() -> Unit) {
 @Composable
 fun InicioScreenPreview() {
     MaterialTheme {
-        InicioScreen({})
+        InicioScreen(
+            onComenzar = {},
+            onVerPlan = {}
+        )
     }
 }

@@ -8,16 +8,19 @@ import com.example.tiotecpreventivo.ui.screens.DispositivoScreen
 import com.example.tiotecpreventivo.ui.screens.EvaluacionScreen
 import com.example.tiotecpreventivo.ui.screens.InicioScreen
 import com.example.tiotecpreventivo.ui.screens.PerfilScreen
+import com.example.tiotecpreventivo.ui.screens.PlanScreen
 import com.example.tiotecpreventivo.ui.screens.ResultadoScreen
 import com.example.tiotecpreventivo.viewmodel.DispositivoViewModel
 import com.example.tiotecpreventivo.viewmodel.EvaluacionViewModel
 import com.example.tiotecpreventivo.viewmodel.PerfilViewModel
+import com.example.tiotecpreventivo.viewmodel.PlanViewModel
 
 @Composable
 fun AppNavigation(
     perfilViewModel: PerfilViewModel,
     dispositivoViewModel: DispositivoViewModel,
-    evaluacionViewModel: EvaluacionViewModel
+    evaluacionViewModel: EvaluacionViewModel,
+    planViewModel: PlanViewModel
 ) {
     val navController = rememberNavController()
 
@@ -29,6 +32,9 @@ fun AppNavigation(
             InicioScreen(
                 onComenzar = {
                     navController.navigate("perfil")
+                },
+                onVerPlan = {
+                    navController.navigate("plan")
                 }
             )
         }
@@ -61,6 +67,9 @@ fun AppNavigation(
             EvaluacionScreen(
                 viewModel = evaluacionViewModel,
                 onVerResultado = {
+                    planViewModel.generarPlan(
+                        evaluacionViewModel.estado.value
+                    )
                     navController.navigate("resultado")
                 },
                 onVolver = {
@@ -72,6 +81,15 @@ fun AppNavigation(
         composable("resultado") {
             ResultadoScreen(
                 viewModel = evaluacionViewModel,
+                onVolver = {
+                    navController.popBackStack()
+                }
+            )
+        }
+
+        composable("plan") {
+            PlanScreen(
+                viewModel = planViewModel,
                 onVolver = {
                     navController.popBackStack()
                 }
