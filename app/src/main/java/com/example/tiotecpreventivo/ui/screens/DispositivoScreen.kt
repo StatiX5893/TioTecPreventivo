@@ -13,7 +13,8 @@ import com.example.tiotecpreventivo.viewmodel.DispositivoViewModel
 @Composable
 fun DispositivoScreen(
     viewModel: DispositivoViewModel,
-    onContinuar: () -> Unit
+    onContinuar: () -> Unit,
+    onVolver: () -> Unit
 ) {
     val estado by viewModel.estado.collectAsState()
     val errores by viewModel.errores.collectAsState()
@@ -119,6 +120,13 @@ fun DispositivoScreen(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Continuar")
+            }
+
+            OutlinedButton(
+                onClick = onVolver,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Volver al perfil")
             }
         }
     }

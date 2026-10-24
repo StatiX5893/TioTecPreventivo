@@ -13,7 +13,8 @@ import com.example.tiotecpreventivo.viewmodel.EvaluacionViewModel
 @Composable
 fun EvaluacionScreen(
     viewModel: EvaluacionViewModel,
-    onVerResultado: () -> Unit
+    onVerResultado: () -> Unit,
+    onVolver: () -> Unit
 ) {
     val estado by viewModel.estado.collectAsState()
 
@@ -78,6 +79,12 @@ fun EvaluacionScreen(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Ver resultado")
+            }
+            OutlinedButton(
+                onClick = onVolver,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Volver al dispositivo")
             }
         }
     }

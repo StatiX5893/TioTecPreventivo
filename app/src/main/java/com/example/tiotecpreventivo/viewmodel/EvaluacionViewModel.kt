@@ -56,4 +56,59 @@ class EvaluacionViewModel : ViewModel() {
 
         return completa
     }
+
+    // Cuenta las medidas que el usuario respondió con "Sí".
+    fun contarMedidasActivas(): Int {
+        val respuestas = _estado.value
+
+        return listOf(
+            respuestas.tieneRespaldos,
+            respuestas.tieneActualizaciones,
+            respuestas.tieneDobleFactor,
+            respuestas.tieneRecuperacion
+        ).count { respuesta ->
+            respuesta == true
+        }
+    }
+
+    // Regla sencilla de orientación para este prototipo académico.
+    fun obtenerOrientacion(): String {
+        return when (contarMedidasActivas()) {
+            4 -> "Mantén tus hábitos preventivos"
+            2, 3 -> "Hay medidas por mejorar"
+            else -> "Prioriza las medidas pendientes"
+        }
+    }
+
+    // Agrega una recomendación por cada respuesta "No".
+    fun obtenerRecomendaciones(): List<String> {
+        val respuestas = _estado.value
+        val recomendaciones = mutableListOf<String>()
+
+        if (respuestas.tieneRespaldos == false) {
+            recomendaciones.add(
+                "Configura respaldos periódicos de tus archivos."
+            )
+        }
+
+        if (respuestas.tieneActualizaciones == false) {
+            recomendaciones.add(
+                "Revisa las actualizaciones del sistema y las aplicaciones."
+            )
+        }
+
+        if (respuestas.tieneDobleFactor == false) {
+            recomendaciones.add(
+                "Activa la autenticación de dos factores en tus cuentas."
+            )
+        }
+
+        if (respuestas.tieneRecuperacion == false) {
+            recomendaciones.add(
+                "Revisa las opciones de recuperación de tus cuentas."
+            )
+        }
+
+        return recomendaciones
+    }
 }

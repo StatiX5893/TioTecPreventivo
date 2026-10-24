@@ -13,7 +13,8 @@ import com.example.tiotecpreventivo.viewmodel.PerfilViewModel
 @Composable
 fun PerfilScreen(
     viewModel: PerfilViewModel,
-    onContinuar: () -> Unit
+    onContinuar: () -> Unit,
+    onVolver: () ->Unit
 ) {
     val estado by viewModel.estado.collectAsState()
     val errores by viewModel.errores.collectAsState()
@@ -104,6 +105,13 @@ fun PerfilScreen(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Continuar")
+            }
+
+            OutlinedButton(
+                onClick = onVolver,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Volver")
             }
         }
     }
