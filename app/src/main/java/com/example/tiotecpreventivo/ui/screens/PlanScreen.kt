@@ -9,7 +9,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.tiotecpreventivo.viewmodel.PlanViewModel
-
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.ContextCompat
+import com.example.tiotecpreventivo.notifications.NotificacionHelper
 @Composable
 fun PlanScreen(
     viewModel: PlanViewModel,
@@ -17,6 +24,30 @@ fun PlanScreen(
 ) {
     val acciones by viewModel.acciones.collectAsState()
     val completadas = acciones.count { it.completada }
+
+    val context = LocalContext.current
+
+    var mensajeNotificacion by remember {
+        mutableStateOf("")
+    }
+
+    val notificacionHelper = remember(context) {
+        NotificacionHelper(context)
+    }
+
+    val solicitarPermiso = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission()
+    ) { permitido ->
+        mensajeNotificacion = if (permitido) {
+            if (notificacionHelper.mostrarRecordatorio()) {
+                "Aviso enviado. Revisa la barra de notificaciones."
+            } else {
+                "No se pudo enviar. Revisa los ajustes de notificaciones."
+            }
+        } else {
+            "Permiso no concedido. Puedes seguir usando el plan."
+        }
+    }
 
     Scaffold { innerPadding ->
         Column(
@@ -83,6 +114,35 @@ fun PlanScreen(
                         }
                     }
                 }
+            }
+            Button(
+                onClick = {
+                    if (
+                        Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+                        ContextCompat.checkSelfPermission(
+                            context,
+                            Manifest.permission.POST_NOTIFICATIONS
+                        ) != PackageManager.PERMISSION_GRANTED
+                    ) {
+                        solicitarPermiso.launch(
+                            Manifest.permission.POST_NOTIFICATIONS
+                        )
+                    } else {
+                        mensajeNotificacion =
+                            if (notificacionHelper.mostrarRecordatorio()) {
+                                "Aviso enviado. Revisa la barra de notificaciones."
+                            } else {
+                                "No se pudo enviar. Revisa los ajustes de notificaciones."
+                            }
+                    }
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Probar aviso preventivo")
+            }
+
+            if (mensajeNotificacion.isNotEmpty()) {
+                Text(mensajeNotificacion)
             }
 
             OutlinedButton(
