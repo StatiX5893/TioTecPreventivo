@@ -8,7 +8,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun InicioScreen() {
+fun InicioScreen(onComenzar:() -> Unit) {
     Scaffold { innerPadding ->
         Column(
             modifier = Modifier
@@ -48,7 +48,7 @@ fun InicioScreen() {
             }
 
             Button(
-                onClick = {},
+                onClick = onComenzar,
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Comenzar evaluación")
@@ -73,6 +73,6 @@ fun InicioScreen() {
 @Composable
 fun InicioScreenPreview() {
     MaterialTheme {
-        InicioScreen()
+        InicioScreen({})
     }
 }
