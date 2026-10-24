@@ -1,5 +1,6 @@
 package com.example.tiotecpreventivo
 
+import com.example.tiotecpreventivo.viewmodel.EvaluacionViewModel
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -15,6 +16,8 @@ class MainActivity : ComponentActivity() {
     private val perfilViewModel: PerfilViewModel by viewModels()
     private val dispositivoViewModel: DispositivoViewModel by viewModels()
 
+    private val evaluacionViewModel: EvaluacionViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -23,7 +26,8 @@ class MainActivity : ComponentActivity() {
             TioTecPreventivoTheme {
                 AppNavigation(
                     perfilViewModel = perfilViewModel,
-                    dispositivoViewModel = dispositivoViewModel
+                    dispositivoViewModel = dispositivoViewModel,
+                    evaluacionViewModel = evaluacionViewModel
                 )
             }
         }
